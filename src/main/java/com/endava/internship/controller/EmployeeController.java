@@ -1,7 +1,6 @@
 package com.endava.internship.controller;
 
 import com.endava.internship.domain.Employee;
-import com.endava.internship.service.DataNotFoundException;
 import com.endava.internship.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,11 +23,7 @@ public class EmployeeController {
 
     @GetMapping(path = "/{id}")
     ResponseEntity<?> getEmployee(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok(employeeService.getEmployeeById(id));
-        } catch (DataNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+        return ResponseEntity.ok(employeeService.getEmployeeById(id));
     }
 
     @GetMapping
@@ -44,13 +39,8 @@ public class EmployeeController {
 
     @PutMapping(path = "/{id}")
     ResponseEntity<?> editEmployee(@PathVariable Integer id,
-                                        @RequestBody Employee editedEmployee) {
-        editedEmployee.setId(id);
-        try {
-            employeeService.updateEmployee(id, editedEmployee);
-            return ResponseEntity.ok(editedEmployee);
-        } catch (DataNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+                                   @RequestBody Employee editData) {
+        Employee editedEmployee = employeeService.updateEmployee(id, editData);
+        return ResponseEntity.ok(editedEmployee);
     }
 }

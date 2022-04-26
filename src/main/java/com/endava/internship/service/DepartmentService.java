@@ -11,5 +11,5 @@ public interface DepartmentService {
 
     void createDepartment(Department department);
 
-    void updateDepartment(Integer id, Department department) throws DataNotFoundException;
+    Department updateDepartment(Integer id, Department department) throws DataNotFoundException;
 }

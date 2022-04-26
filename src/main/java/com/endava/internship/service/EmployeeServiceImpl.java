@@ -30,17 +30,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void updateEmployee(Integer id, Employee updatedEmployee) throws DataNotFoundException {
-        Employee oldEmployee = employeeRepository.findById(updatedEmployee.getId())
+    public Employee updateEmployee(Integer id, Employee updateData) throws DataNotFoundException {
+        Employee employeeToUpdate = employeeRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("No user with id=" + id + " found"));
 
-        oldEmployee.setEmail(updatedEmployee.getEmail());
-        oldEmployee.setDepartment(updatedEmployee.getDepartment());
-        oldEmployee.setFirstName(updatedEmployee.getFirstName());
-        oldEmployee.setLastName(updatedEmployee.getLastName());
-        oldEmployee.setSalary(updatedEmployee.getSalary());
-        oldEmployee.setPhoneNumber(updatedEmployee.getPhoneNumber());
+        employeeToUpdate.setEmail(updateData.getEmail());
+        employeeToUpdate.setDepartment(updateData.getDepartment());
+        employeeToUpdate.setFirstName(updateData.getFirstName());
+        employeeToUpdate.setLastName(updateData.getLastName());
+        employeeToUpdate.setSalary(updateData.getSalary());
+        employeeToUpdate.setPhoneNumber(updateData.getPhoneNumber());
 
-        employeeRepository.save(oldEmployee);
+        employeeRepository.save(employeeToUpdate);
+
+        return employeeToUpdate;
     }
 }

@@ -1,9 +1,6 @@
 package com.endava.internship.controller;
 
 import com.endava.internship.domain.Department;
-import com.endava.internship.domain.Employee;
-import com.endava.internship.repository.DepartmentRepository;
-import com.endava.internship.service.DataNotFoundException;
 import com.endava.internship.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,12 +22,8 @@ public class DepartmentController {
     private final DepartmentService departmentService;
 
     @GetMapping(path = "/{id}")
-    ResponseEntity<?> getDepartment(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok(departmentService.getDepartmentById(id));
-        } catch (DataNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+    ResponseEntity<Department> getDepartment(@PathVariable Integer id) {
+        return ResponseEntity.ok(departmentService.getDepartmentById(id));
     }
 
     @GetMapping
@@ -45,14 +38,9 @@ public class DepartmentController {
     }
 
     @PutMapping(path = "/{id}")
-    ResponseEntity<?> editDepartment(@PathVariable Integer id,
-                                     @RequestBody Department editedDepartment) {
-        editedDepartment.setId(id);
-        try {
-            departmentService.updateDepartment(id, editedDepartment);
-            return ResponseEntity.ok(editedDepartment);
-        } catch (DataNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+    ResponseEntity<Department> editDepartment(@PathVariable Integer id,
+                                     @RequestBody Department editData) {
+        Department editedDepartment = departmentService.updateDepartment(id, editData);
+        return ResponseEntity.ok(editedDepartment);
     }
 }
