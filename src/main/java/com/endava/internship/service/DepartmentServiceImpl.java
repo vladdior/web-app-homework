@@ -31,13 +31,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void updateDepartment(Integer id, Department editedDepartment) throws DataNotFoundException {
-        Department oldDepartment = departmentRepository.findById(editedDepartment.getId())
+    public Department updateDepartment(Integer id, Department updateData) throws DataNotFoundException {
+        Department departmentToUpdate = departmentRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("No department with id=" + id + " found"));
 
-        oldDepartment.setLocation(editedDepartment.getLocation());
-        oldDepartment.setName(editedDepartment.getName());
+        departmentToUpdate.setLocation(updateData.getLocation());
+        departmentToUpdate.setName(updateData.getName());
 
-        departmentRepository.save(oldDepartment);
+        departmentRepository.save(departmentToUpdate);
+
+        return departmentToUpdate;
     }
 }

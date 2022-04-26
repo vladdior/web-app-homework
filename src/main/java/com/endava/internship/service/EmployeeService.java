@@ -11,5 +11,5 @@ public interface EmployeeService {
 
     void createEmployee(Employee employee);
 
-    void updateEmployee(Integer id, Employee employee) throws DataNotFoundException;
+    Employee updateEmployee(Integer id, Employee employee) throws DataNotFoundException;
 }
